@@ -1,3 +1,67 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+.menuPrincipal{
+    background-color: rgb(197, 198, 255);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 1vw;
+}
+.menuConsultas{
+    background-color: rgb(197, 227, 255);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 1vw;
+}
+section{
+    background-color: rgb(234, 235, 255);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 1vw;
+}
+a{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 10%;
+    padding: 1%;
+    border: solid 0.1vw black;
+    background-color: rgb(255, 255, 255);
+    color: rgb(25, 25, 75);
+    text-align: center;
+    border-radius: 1vw;
+}
+table{
+    text-align: center;
+    width: 100%;
+    border: solid 0.1vw black;
+    border-collapse: collapse;
+}
+th{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 20%;
+    padding: 1%;
+    border: solid 0.1vw black;
+    background-color: rgb(197, 198, 255);
+    color: rgb(25, 25, 75);
+}
+td{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 20%;
+    padding: 1%;
+    border: solid 0.1vw black;
+}
+input{
+    margin: 1vw;
+    width: 15%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 h1{
-    color: aquamarine;
+    width: 100%;
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 2.5vw;
 }

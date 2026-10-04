@@ -1,6 +1,6 @@
 import { conectar } from "../database/conexion.js";
 
-const bd=conectar();
+const bd= await conectar();
 
 // Render de todas las pags de eventos
 export const menuEventos = (pet, resp) => {

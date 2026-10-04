@@ -16,4 +16,5 @@ rAtletas.get('/atletas/atletasFemeninas', atletasFemeninas);
 rAtletas.get('/atletas/mayoresA30', mayoresA30);
 rAtletas.get('/atletas/promedios', promedios);
 
+
 export{rAtletas};

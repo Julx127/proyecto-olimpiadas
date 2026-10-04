@@ -10,7 +10,7 @@ app.set('view engine', 'ejs');
 const directorio=path.dirname(fileURLToPath(import.meta.url));
 app.set('views', path.join(directorio,'vistas'));
 app.use(express.static(path.join(directorio, 'public')));
-app.set(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: false}));
 app.use(express.json())
 
 

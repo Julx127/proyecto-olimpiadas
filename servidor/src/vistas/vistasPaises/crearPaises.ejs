@@ -15,5 +15,19 @@
         </nav>
     </header>
     <h1>CREAR PAISES</h1>
+    <form action="/paises/crearPaisesSQL" method="POST">
+        <input name="ISO" type="text" placeholder="ISO" maxlength="3" size="15" required>
+        <input name="nombre" type="text" placeholder="Nombre" maxlength="50" size="15" required>
+        <select name="continente">
+            <option value="America del Norte">America del Norte</option>
+            <option value="America del Sur">America del Sur</option>
+            <option value="America Central">America Central</option>
+            <option value="Europa">Europa</option>
+            <option value="Asia">Asia</option>
+            <option value="Africa">Africa</option>
+            <option value="Oceania">Oceania</option>
+        </select>
+        <button name="enviar" type="submit">Registrar</button>
+    </form>
 </body>
 </html>

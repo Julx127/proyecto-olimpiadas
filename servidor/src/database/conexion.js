@@ -2,14 +2,14 @@ import mysql from 'mysql2/promise';
 
 export async function conectar() {
     try {
-       const bdd =  await mysql.createPool({
+       const bd =  await mysql.createPool({
             host: "localhost",
             database: "olimpiadas",
             user: "root",
             password: "286KaidoshuN286",
         })
-        console.log("Conectado ;3");
-        return bdd;
+        console.log("BD conectada ;3");
+        return bd;
     } catch (error) {
         console.log("Error al conectar")
     }

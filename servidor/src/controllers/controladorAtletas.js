@@ -1,6 +1,6 @@
 import { conectar } from "../database/conexion.js";
 
-const bd=conectar();
+const bd= await conectar();
 
 // Render de todas las paginas de atletas
 export const menuAtletas = (pet, resp) => {
@@ -36,3 +36,5 @@ export const mayoresA30 = (pet, resp) => {
 export const promedios = (pet, resp) => {
     resp.render('vistasAtletas/promedios');
 }
+
+// CRUD atletas

@@ -15,5 +15,10 @@
         </nav>
     </header>
     <h1>CREAR EVENTOS</h1>
+    <form action="/eventos/crearEventosSQL" method="POST">
+        <input name="deporte" type="text" placeholder="Nombre del Deporte" maxlength="45" size="15" required>
+        <input name="descripcion" type="text" placeholder="Descripcion" maxlength="100" size="15" required>
+        <button name="enviar" type="submit">Registrar</button>
+    </form>
 </body>
 </html>

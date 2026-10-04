@@ -1,5 +1,5 @@
 import express from 'express';
-import { menuEventos, crearEventos, modificarEventos, verEventos, eliminarEventos, eventosId1, eventosMasParticipantes } from '../controllers/controladorEventos.js';
+import { menuEventos, crearEventos, modificarEventos, verEventos, eliminarEventos, eventosId1, eventosMasParticipantes, crearEventosSQL } from '../controllers/controladorEventos.js';
 
 const rEventos=express.Router();
 
@@ -11,5 +11,9 @@ rEventos.get('/eventos/modificarEventos', modificarEventos);
 rEventos.get('/eventos/eliminarEventos', eliminarEventos);
 rEventos.get('/eventos/eventosId1', eventosId1);
 rEventos.get('/eventos/eventosMasParticipantes', eventosMasParticipantes);
+
+// rutas CRUD eventos
+rEventos.post('/eventos/crearEventos', crearEventosSQL);
+rEventos.post('/eventos/crearEventosSQL', crearEventosSQL);
 
 export{rEventos};

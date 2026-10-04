@@ -38,3 +38,24 @@ export const promedios = (pet, resp) => {
 }
 
 // CRUD atletas
+export const crearAtletasSQL= async (pet, resp) => {
+    let nombrePais, nombre, genero, edad, estatura, peso;
+    nombrePais=pet.body.nombrePais;
+    nombre=pet.body.nombre;
+    genero=pet.body.genero;
+    edad=pet.body.edad;
+    estatura=pet.body.estatura;
+    peso=pet.body.peso;
+
+    try {
+        const consultaPais = `SELECT ISO FROM paises WHERE nombre COLLATE utf8_unicode_ci='${nombrePais}'`;
+        const [resultadoPais]=await bd.query(consultaPais);
+        const ISOpais=resultadoPais[0].ISO;
+
+        let consultaInsertar=`INSERT INTO atletas (paises_iso, nombre, genero, edad, estatura, peso) VALUES ('${ISOpais}', '${nombre}', '${genero}', '${edad}', '${estatura}', '${peso}')`;
+        const [registro]=await bd.query(consultaInsertar);
+        resp.redirect('/atletas/verAtletas');
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+    }
+}

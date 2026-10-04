@@ -1,5 +1,5 @@
 import express from 'express';
-import { menuAtletas, crearAtletas, verAtletas, modificarAtletas, eliminarAtletas, atletasConOro, atletasConOroMismoAnio, atletasConPaises, atletasFemeninas, mayoresA30, promedios } from '../controllers/controladorAtletas.js';
+import { menuAtletas, crearAtletas, verAtletas, modificarAtletas, eliminarAtletas, atletasConOro, atletasConOroMismoAnio, atletasConPaises, atletasFemeninas, mayoresA30, promedios, crearAtletasSQL } from '../controllers/controladorAtletas.js';
 
 const rAtletas=express.Router();
 
@@ -16,5 +16,8 @@ rAtletas.get('/atletas/atletasFemeninas', atletasFemeninas);
 rAtletas.get('/atletas/mayoresA30', mayoresA30);
 rAtletas.get('/atletas/promedios', promedios);
 
+// rutas CRUD atletas
+rAtletas.post('/atletas/crearAtletas', crearAtletasSQL);
+rAtletas.post('/atletas/crearAtletasSQL', crearAtletasSQL);
 
 export{rAtletas};

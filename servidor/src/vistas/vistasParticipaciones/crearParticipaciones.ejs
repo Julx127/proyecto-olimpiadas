@@ -15,5 +15,17 @@
         </nav>
     </header>
     <h1>CREAR PARTICIPACIONES</h1>
+    <form action="/participaciones/crearParticipacionesSQL" method="POST">
+        <input name="nombreAtleta" type="text" placeholder="Nombre completo del atleta" maxlength="100" size="15" required>
+        <input name="descripcionEvento" type="text" placeholder="Descripcion completa del evento" maxlength="100" size="15" required>
+        <input name="anio" type="number" placeholder="Año" maxlength="4" size="15" required>
+        <select name="medalla" required>
+            <option value="NULL">Sin medalla</option>
+            <option value="Oro">Medalla de oro</option>
+            <option value="Plata">Medalla de plata</option>
+            <option value="Bronce">Medalla de Bronce</option>
+        </select>
+        <button name="enviar" type="submit">Registrar</button>
+    </form>
 </body>
 </html>

@@ -15,5 +15,17 @@
         </nav>
     </header>
     <h1>CREAR ATLETA</h1>
+    <form action="/atletas/crearAtletasSQL" method="POST">
+        <input name="nombrePais" type="text" placeholder="Pais" maxlength="50" size="15" required>
+        <input name="nombre" type="text" placeholder="Nombre Completo" maxlength="100" size="15" required>
+        <select name="genero" required>
+            <option value="Femenino">Femenino</option>
+            <option value="Masculino">Masculino</option>
+        </select>
+        <input name="edad" type="number" placeholder="Edad" maxlength="2" size="15" required>
+        <input name="estatura" type="text" placeholder="Estatura (metros)" size="15" required>
+        <input name="peso" type="text" placeholder="Peso (KG)" size="15" required>
+        <button name="enviar" type="submit">Registrar</button>
+    </form>
 </body>
 </html>

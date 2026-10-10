@@ -15,5 +15,32 @@
         </nav>
     </header>
     <h1>VER Y BUSCAR PAISES</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ISO</th>
+                <th>NOMBRE</th>
+                <th>CONTINENTE</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% if (paises.length === 0) { %>
+            <tr>
+                <td></td>
+                <td colspan>no hay nada</td>
+                <td></td>
+            </tr>
+        <% } else{ %>
+        <% paises.forEach(pais => { %>
+            <tr>
+                <td> <%= pais.ISO %></td>
+                <td> <%= pais.nombre %></td>
+                <td> <%= pais.continente %></td>
+            </tr>         
+        <% }); %>
+        <% } %>
+        </tbody>
+    </table>
 </body>
 </html>
+

@@ -9,8 +9,16 @@ export const menuPaises = (pet, resp) => {
 export const crearPaises = (pet, resp) => {
     resp.render('vistasPaises/crearPaises');
 }
-export const verPaises = (pet, resp) => {
-    resp.render('vistasPaises/verPaises');
+export const verPaises = async (pet, resp) => {
+    // un select de toda la tabla paises
+    try {
+        let consultaSelect=`SELECT * FROM paises`;
+        const [paises] = await bd.query(consultaSelect)
+        console.log(paises);
+        resp.render('vistasPaises/verPaises', {paises: paises});
+    } catch (error) {
+        
+    }
 }
 export const modificarPaises = (pet, resp) => {
     resp.render('vistasPaises/modificarPaises');
@@ -28,7 +36,7 @@ export const paisesSinMedalla = (pet, resp) => {
     resp.render('vistasPaises/paisesSinMedalla');
 }
 
-// CRUD paises
+// CREATE paises
 export const crearPaisesSQL= async (pet, resp) => {
     let ISO, nombre, continente;
     ISO=pet.body.ISO;

@@ -41,5 +41,8 @@ export const crearEventosSQL= async (pet, resp) => {
         resp.redirect('/eventos/verEventos');
     } catch (error) {
         console.log('Error en la sentencia: ', error);
+        resp.render('vistasEventos/crearEventos', {
+            alertaError: true
+        })
     }
 }

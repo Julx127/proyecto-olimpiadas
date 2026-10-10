@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 
 export async function conectar() {
     try {
-       const bd =  await mysql.createPool({
+       const bd=await mysql.createPool({
             host: "localhost",
             database: "olimpiadas",
             user: "root",

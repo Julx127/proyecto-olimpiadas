@@ -30,5 +30,8 @@ export const crearDeportesSQL= async (pet, resp) => {
         resp.redirect('/deportes/verDeportes');
     } catch (error) {
         console.log('Error en la sentencia: ', error);
+        resp.render('vistasDeportes/crearDeportes', {
+            alertaError: true
+        })
     }
 }

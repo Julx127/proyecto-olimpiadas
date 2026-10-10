@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Crear paises</title>
 </head>
 <body>
@@ -29,5 +30,16 @@
         </select>
         <button name="enviar" type="submit">Registrar</button>
     </form>
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    
+<script>
+    Swal.fire({
+        icon: "error",
+        title: "ERROR",
+        text: "Algo salió mal :C",
+        });
+</script>
+
+<% } %>
 </body>
 </html>

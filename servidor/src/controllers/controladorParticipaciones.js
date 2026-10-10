@@ -41,5 +41,8 @@ export const crearParticipacionesSQL= async (pet, resp) => {
         resp.redirect('/participaciones/verParticipaciones');
     } catch (error) {
         console.log('Error en la sentencia: ', error);
+        resp.render('vistasParticipaciones/crearParticipaciones', {
+            alertaError: true
+        })
     }
 }

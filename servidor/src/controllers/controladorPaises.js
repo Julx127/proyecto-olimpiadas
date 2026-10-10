@@ -41,5 +41,8 @@ export const crearPaisesSQL= async (pet, resp) => {
         resp.redirect('/paises/verPaises');
     } catch (error) {
         console.log('Error en la sentencia: ', error);
+        resp.render('vistasPaises/crearPaises', {
+            alertaError: true
+        })
     }
 }

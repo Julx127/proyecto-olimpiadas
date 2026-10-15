@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Ver y buscar atletas</title>
 </head>
 <body>
@@ -15,17 +16,51 @@
         </nav>
     </header>
     <h1>VER Y BUSCAR ATLETAS</h1>
-    <table id="tablaVerAtletas">
-        <tr>
-            <th>ID</th>
-            <th>PAIS</th>
-            <th>NOMBRE</th>
-            <th>GENERO</th>
-            <th>EDAD</th>
-            <th>ESTATURA</th>
-            <th>PESO</th>
-        </tr>
+    <form action="/atletas/verAtletas" method="GET">
+        <input name="id" type="number" placeholder="ID del deporte" size="15">
+        <button name="enviar" type="submit">BUSCAR</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>PAIS</th>
+                <th>NOMBRE</th>
+                <th>GENERO</th>
+                <th>EDAD</th>
+                <th>ESTATURA</th>
+                <th>PESO</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% if (atletas.length === 0) { %>
+            <tr>
+                <td colspan="7" style="text-align: center;">No se encontraron atletas</td>
+            </tr>
+        <% } else{ %>
+        <% atletas.forEach (atleta => { %>
+            <tr>
+                <td> <%= atleta.idatleta %></td>
+                <td> <%= atleta.paises_ISO %></td>
+                <td> <%= atleta.nombre %></td>
+                <td> <%= atleta.genero %></td>
+                <td> <%= atleta.edad %></td>
+                <td> <%= atleta.estatura %></td>
+                <td> <%= atleta.peso %></td>
+            </tr>         
+        <% }); %>
+        <% } %>
+        </tbody>
     </table>
-    <script src="/js/script.js"></script>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>

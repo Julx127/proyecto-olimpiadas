@@ -10,14 +10,26 @@ export const crearPaises = (pet, resp) => {
     resp.render('vistasPaises/crearPaises');
 }
 export const verPaises = async (pet, resp) => {
-    // un select de toda la tabla paises
+    let ISO;
+    ISO=pet.query.ISO;
+
     try {
-        let consultaSelect=`SELECT * FROM paises`;
-        const [paises] = await bd.query(consultaSelect)
-        console.log(paises);
-        resp.render('vistasPaises/verPaises', {paises: paises});
-    } catch (error) {
+        if(!ISO){
+            let consultaSelect=`SELECT * FROM paises`;
+            const [paises] = await bd.query(consultaSelect);
+            resp.render('vistasPaises/verPaises', {paises: paises});
+        } else{
+            ISO=ISO.toUpperCase();
+            let consultaSelect=`SELECT * FROM paises WHERE ISO='${ISO}'`;
+            const [paises] = await bd.query(consultaSelect);
+            resp.render('vistasPaises/verPaises', {paises: paises});
+        }
         
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasPaises/verPaises', {
+            alertaError: true,
+        })
     }
 }
 export const modificarPaises = (pet, resp) => {
@@ -40,6 +52,7 @@ export const paisesSinMedalla = (pet, resp) => {
 export const crearPaisesSQL= async (pet, resp) => {
     let ISO, nombre, continente;
     ISO=pet.body.ISO;
+    ISO=ISO.toUpperCase();
     nombre=pet.body.nombre;
     continente=pet.body.continente;
     

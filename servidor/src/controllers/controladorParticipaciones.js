@@ -9,8 +9,27 @@ export const menuParticipaciones = (pet, resp) => {
 export const crearParticipaciones = (pet, resp) => {
     resp.render('vistasParticipaciones/crearParticipaciones');
 }
-export const verParticipaciones = (pet, resp) => {
-    resp.render('vistasParticipaciones/verParticipaciones');
+export const verParticipaciones = async (pet, resp) => {
+    let id;
+    id=pet.query.id;
+    id=Number(id);
+    try {
+        if(!id){
+            let consultaSelect=`SELECT * FROM participaciones`;
+            const [participaciones] = await bd.query(consultaSelect);
+            resp.render('vistasParticipaciones/verParticipaciones', {participaciones: participaciones});
+        } else{
+            let consultaSelect=`SELECT * FROM participaciones WHERE idparticipacion=${id}`;
+            const [participaciones] = await bd.query(consultaSelect);
+            resp.render('vistasParticipaciones/verParticipaciones', {participaciones: participaciones});
+        }
+        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasParticipacion/verParticipacion', {
+            alertaError: true,
+        })
+    }
 }
 export const modificarParticipaciones = (pet, resp) => {
     resp.render('vistasParticipaciones/modificarParticipaciones');

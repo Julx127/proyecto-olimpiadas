@@ -9,8 +9,27 @@ export const menuEventos = (pet, resp) => {
 export const crearEventos = (pet, resp) => {
     resp.render('vistasEventos/crearEventos');
 }
-export const verEventos = (pet, resp) => {
-    resp.render('vistasEventos/verEventos');
+export const verEventos = async (pet, resp) => {
+    let id;
+    id=pet.query.id;
+    id=Number(id);
+    try {
+        if(!id){
+            let consultaSelect=`SELECT * FROM eventos`;
+            const [eventos] = await bd.query(consultaSelect);
+            resp.render('vistasEventos/verEventos', {eventos: eventos});
+        } else{
+            let consultaSelect=`SELECT * FROM eventos WHERE idevento=${id}`;
+            const [eventos] = await bd.query(consultaSelect);
+            resp.render('vistasEventos/verEventos', {eventos: eventos});
+        }
+        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasEventos/verEventos', {
+            alertaError: true,
+        })
+    }
 }
 export const modificarEventos = (pet, resp) => {
     resp.render('vistasEventos/modificarEventos');

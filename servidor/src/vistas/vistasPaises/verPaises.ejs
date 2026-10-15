@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Ver y buscar paises</title>
 </head>
 <body>
@@ -15,6 +16,10 @@
         </nav>
     </header>
     <h1>VER Y BUSCAR PAISES</h1>
+    <form action="/paises/verPaises" method="GET">
+        <input name="ISO" type="text" placeholder="ISO" maxlength="3" size="15">
+        <button name="enviar" type="submit">BUSCAR</button>
+    </form>
     <table>
         <thead>
             <tr>
@@ -26,9 +31,7 @@
         <tbody>
         <% if (paises.length === 0) { %>
             <tr>
-                <td></td>
-                <td colspan>no hay nada</td>
-                <td></td>
+                <td colspan="3" style="text-align: center;">No se encontraron paises</td>
             </tr>
         <% } else{ %>
         <% paises.forEach(pais => { %>
@@ -41,6 +44,16 @@
         <% } %>
         </tbody>
     </table>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>
 

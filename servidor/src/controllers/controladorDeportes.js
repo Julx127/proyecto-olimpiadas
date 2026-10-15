@@ -9,8 +9,27 @@ export const menuDeportes = (pet, resp) => {
 export const crearDeportes = (pet, resp) => {
     resp.render('vistasDeportes/crearDeportes');
 }
-export const verDeportes = (pet, resp) => {
-    resp.render('vistasDeportes/verDeportes');
+export const verDeportes = async (pet, resp) => {
+    let id;
+    id=pet.query.id;
+    id=Number(id);
+    try {
+        if(!id){
+            let consultaSelect=`SELECT * FROM deportes`;
+            const [deportes] = await bd.query(consultaSelect);
+            resp.render('vistasDeportes/verDeportes', {deportes: deportes});
+        } else{
+            let consultaSelect=`SELECT * FROM deportes WHERE iddeporte=${id}`;
+            const [deportes] = await bd.query(consultaSelect);
+            resp.render('vistasDeportes/verDeportes', {deportes: deportes});
+        }
+        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasDeportes/verDeportes', {
+            alertaError: true,
+        })
+    }
 }
 export const modificarDeportes = (pet, resp) => {
     resp.render('vistasDeportes/modificarDeportes');

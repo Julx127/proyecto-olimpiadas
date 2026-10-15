@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Ver y buscar eventos</title>
 </head>
 <body>
@@ -15,5 +16,43 @@
         </nav>
     </header>
     <h1>VER Y BUSCAR EVENTOS</h1>
+    <form action="/eventos/verEventos" method="GET">
+        <input name="id" type="number" placeholder="ID del evento" size="15">
+        <button name="enviar" type="submit">BUSCAR</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ID DEL DEPORTE</th>
+                <th>DESCRIPCION</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% if (eventos.length === 0) { %>
+            <tr>
+                <td colspan="3" style="text-align: center;">No se encontraron eventos</td>
+            </tr>
+        <% } else{ %>
+        <% eventos.forEach(evento => { %>
+            <tr>
+                <td> <%= evento.idevento %></td>
+                <td> <%= evento.deportes_iddeporte %></td>
+                <td> <%= evento.descripcion %></td>
+            </tr>         
+        <% }); %>
+        <% } %>
+        </tbody>
+    </table>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>

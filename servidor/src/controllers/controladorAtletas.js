@@ -9,8 +9,27 @@ export const menuAtletas = (pet, resp) => {
 export const crearAtletas = (pet, resp) => {
     resp.render('vistasAtletas/crearAtletas');
 }
-export const verAtletas = (pet, resp) => {
-    resp.render('vistasAtletas/verAtletas');
+export const verAtletas = async (pet, resp) => {
+    let id;
+    id=pet.query.id;
+    id=Number(id);
+    try {
+        if(!id){
+            let consultaSelect=`SELECT * FROM atletas`;
+            const [atletas] = await bd.query(consultaSelect);
+            resp.render('vistasAtletas/verAtletas', {atletas: atletas});
+        } else{
+            let consultaSelect=`SELECT * FROM atletas WHERE idatleta=${id}`;
+            const [atletas] = await bd.query(consultaSelect);
+            resp.render('vistasAtletas/verAtletas', {atletas: atletas});
+        }
+        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasAtletas/verAtletas', {
+            alertaError: true,
+        })
+    }
 }
 export const modificarAtletas = (pet, resp) => {
     resp.render('vistasAtletas/modificarAtletas');

@@ -15,11 +15,18 @@ export const verEventos = async (pet, resp) => {
     id=Number(id);
     try {
         if(!id){
-            let consultaSelect=`SELECT * FROM eventos`;
+            let consultaSelect=`SELECT e.idevento, d.nombre, e.descripcion
+                                FROM eventos AS e
+                                INNER JOIN deportes AS d
+                                ON e.deportes_iddeporte = d.iddeporte`;
             const [eventos] = await bd.query(consultaSelect);
             resp.render('vistasEventos/verEventos', {eventos: eventos});
         } else{
-            let consultaSelect=`SELECT * FROM eventos WHERE idevento=${id}`;
+            let consultaSelect=`SELECT e.idevento, d.nombre, e.descripcion
+                                FROM eventos AS e
+                                INNER JOIN deportes AS d
+                                ON e.deportes_iddeporte = d.iddeporte
+                                WHERE idevento=${id}`;
             const [eventos] = await bd.query(consultaSelect);
             resp.render('vistasEventos/verEventos', {eventos: eventos});
         }
@@ -57,7 +64,9 @@ export const crearEventosSQL= async (pet, resp) => {
 
         let consultaInsertar=`INSERT INTO eventos(deportes_iddeporte, descripcion) VALUES ('${idDeporte}', '${descripcion}')`;
         const [registro]=await bd.query(consultaInsertar);
-        resp.redirect('/eventos/verEventos');
+        resp.render('vistasEventos/crearEventos', {
+            alertaExito: true,
+        })
     } catch (error) {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasEventos/crearEventos', {

@@ -28,6 +28,17 @@
         <input name="peso" type="text" placeholder="Peso (KG)" size="15" required>
         <button name="enviar" type="submit">Registrar</button>
     </form>
+    <% if ( typeof alertaExito !== 'undefined' && alertaExito) { %>
+    
+<script>
+    Swal.fire({
+        icon: "success",
+        title: "EXITOS!",
+        text: "Se registro el atleta correctamente",
+        });
+</script>
+
+<% } %>
 
 <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
     

@@ -48,7 +48,7 @@ export const paisesSinMedalla = (pet, resp) => {
     resp.render('vistasPaises/paisesSinMedalla');
 }
 
-// CREATE paises
+// CRUD paises
 export const crearPaisesSQL= async (pet, resp) => {
     let ISO, nombre, continente;
     ISO=pet.body.ISO;
@@ -59,7 +59,9 @@ export const crearPaisesSQL= async (pet, resp) => {
     try {
         let consultaInsertar=`INSERT INTO paises(ISO, nombre, continente) VALUES ('${ISO}', '${nombre}', '${continente}')`;
         const [registro]=await bd.query(consultaInsertar);
-        resp.redirect('/paises/verPaises');
+        resp.render('vistasPaises/crearPaises', {
+            alertaExito: true,
+        })
     } catch (error) {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasPaises/crearPaises', {

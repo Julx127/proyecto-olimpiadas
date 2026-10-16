@@ -20,6 +20,17 @@
         <input name="nombre" type="text" placeholder="Nombre" maxlength="45" size="15" required>
         <button name="enviar" type="submit">Registrar</button>
     </form>
+    <% if ( typeof alertaExito !== 'undefined' && alertaExito) { %>
+    
+<script>
+    Swal.fire({
+        icon: "success",
+        title: "EXITOS!",
+        text: "Se registro el deporte correctamente",
+        });
+</script>
+
+<% } %>
     <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
     
 <script>

@@ -15,11 +15,22 @@ export const verParticipaciones = async (pet, resp) => {
     id=Number(id);
     try {
         if(!id){
-            let consultaSelect=`SELECT * FROM participaciones`;
+            let consultaSelect=`SELECT p.idparticipacion, a.nombre, e.descripcion, p.anio, p.medalla
+                                FROM participaciones AS p
+                                INNER JOIN atletas AS a
+                                ON p.atletas_idatleta = a.idatleta
+                                INNER JOIN eventos AS e
+                                ON p.eventos_idevento = e.idevento`;
             const [participaciones] = await bd.query(consultaSelect);
             resp.render('vistasParticipaciones/verParticipaciones', {participaciones: participaciones});
         } else{
-            let consultaSelect=`SELECT * FROM participaciones WHERE idparticipacion=${id}`;
+            let consultaSelect=`SELECT p.idparticipacion, a.nombre, e.descripcion, p.anio, p.medalla
+                                FROM participaciones AS p
+                                INNER JOIN atletas AS a
+                                ON p.atletas_idatleta = a.idatleta
+                                INNER JOIN eventos AS e
+                                ON p.eventos_idevento = e.idevento
+                                WHERE idparticipacion=${id}`;
             const [participaciones] = await bd.query(consultaSelect);
             resp.render('vistasParticipaciones/verParticipaciones', {participaciones: participaciones});
         }
@@ -57,7 +68,9 @@ export const crearParticipacionesSQL= async (pet, resp) => {
 
         let consultaInsertar=`INSERT INTO participaciones (atletas_idatleta, eventos_idevento, anio, medalla) VALUES ('${idAtleta}', '${idEvento}', '${anio}', '${medalla}')`;
         const [registro]=await bd.query(consultaInsertar);
-        resp.redirect('/participaciones/verParticipaciones');
+        resp.render('vistasParticipacion/crearParticipacion', {
+            alertaExito: true,
+        })
     } catch (error) {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasParticipaciones/crearParticipaciones', {

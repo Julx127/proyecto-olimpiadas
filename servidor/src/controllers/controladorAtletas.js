@@ -73,7 +73,9 @@ export const crearAtletasSQL= async (pet, resp) => {
 
         let consultaInsertar=`INSERT INTO atletas (paises_iso, nombre, genero, edad, estatura, peso) VALUES ('${ISOpais}', '${nombre}', '${genero}', '${edad}', '${estatura}', '${peso}')`;
         const [registro]=await bd.query(consultaInsertar);
-        resp.redirect('/atletas/verAtletas');
+        resp.render('vistasAtletas/crearAtletas', {
+            alertaExito: true,
+        })
     } catch (error) {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasAtletas/crearAtletas', {

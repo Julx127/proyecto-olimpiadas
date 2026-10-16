@@ -46,7 +46,9 @@ export const crearDeportesSQL= async (pet, resp) => {
     try {
         let consultaInsertar=`INSERT INTO deportes(nombre) VALUES ('${nombre}')`;
         const [registro]=await bd.query(consultaInsertar);
-        resp.redirect('/deportes/verDeportes');
+        resp.render('vistasDeportes/crearDeportes', {
+            alertaExito: true,
+        })
     } catch (error) {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasDeportes/crearDeportes', {

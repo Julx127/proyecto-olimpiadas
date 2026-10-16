@@ -24,7 +24,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>ID DEL DEPORTE</th>
+                <th>DEPORTE</th>
                 <th>DESCRIPCION</th>
             </tr>
         </thead>
@@ -37,14 +37,14 @@
         <% eventos.forEach(evento => { %>
             <tr>
                 <td> <%= evento.idevento %></td>
-                <td> <%= evento.deportes_iddeporte %></td>
+                <td> <%= evento.nombre %></td>
                 <td> <%= evento.descripcion %></td>
             </tr>         
         <% }); %>
         <% } %>
         </tbody>
     </table>
-
+    
     <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
     <script>
         Swal.fire({

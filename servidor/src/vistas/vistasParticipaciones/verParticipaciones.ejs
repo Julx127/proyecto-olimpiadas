@@ -24,8 +24,8 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>ID DEL ATLETA</th>
-                <th>ID DEL EVENTO</th>
+                <th>ATLETA</th>
+                <th>EVENTO</th>
                 <th>AÑO</th>
                 <th>MEDALLA</th>
             </tr>
@@ -39,8 +39,8 @@
         <% participaciones.forEach(participacion => { %>
             <tr>
                 <td> <%= participacion.idparticipacion %></td>
-                <td> <%= participacion.atletas_idatleta %></td>
-                <td> <%= participacion.eventos_idevento %></td>
+                <td> <%= participacion.nombre %></td>
+                <td> <%= participacion.descripcion %></td>
                 <td> <%= participacion.anio %></td>
                 <td> <%= participacion.medalla %></td>
             </tr>         

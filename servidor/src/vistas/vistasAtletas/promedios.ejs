@@ -15,5 +15,31 @@
         </nav>
     </header>
     <h1>PROMEDIOS DE PESO Y ESTATURA</h1>
+    <% let promedioPeso=0, promedioAltura=0; %>
+    <% if (atletas.length === 0) { %>
+
+        <p style="text-align: center;">No se encontraron atletas</p>
+
+        <% } else{ %>
+        <% atletas.forEach (atleta => { %>
+            
+                <% promedioPeso= promedioPeso+Number(atleta.peso) %>
+                <% promedioAltura= promedioAltura+Number(atleta.estatura) %>
+        <% }); %>
+            <p style="text-align: center; padding: 10px; font-size: 30px;">PROMEDIO PESO: <%= promedioPeso/atletas.length %>kg</p>
+            <p style="text-align: center; padding: 10px; font-size: 30px;">PROMEDIO ALTURA: <%= promedioAltura/atletas.length %>m</p>
+        <% } %>
+        </tbody>
+    </table>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>

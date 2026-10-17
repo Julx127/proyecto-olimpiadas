@@ -37,23 +37,90 @@ export const modificarAtletas = (pet, resp) => {
 export const eliminarAtletas = (pet, resp) => {
     resp.render('vistasAtletas/eliminarAtletas');
 }
-export const atletasConOro = (pet, resp) => {
-    resp.render('vistasAtletas/atletasConOro');
+export const atletasConOro = async (pet, resp) => {
+    try {
+        let consultaSelect=`SELECT p.idparticipacion, a.nombre, e.descripcion, p.anio, p.medalla
+                                FROM participaciones AS p
+                                INNER JOIN atletas AS a
+                                ON p.atletas_idatleta = a.idatleta
+                                INNER JOIN eventos AS e
+                                ON p.eventos_idevento = e.idevento
+                                WHERE medalla='Oro'`;
+        const [atletas] = await bd.query(consultaSelect);
+        resp.render('vistasAtletas/atletasConOro', {atletas: atletas})
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasAtletas/atletasConOro', {
+            alertaError: true,
+        })
+    }
 }
-export const atletasConOroMismoAnio = (pet, resp) => {
-    resp.render('vistasAtletas/atletasConOroMismoAnio');
+export const atletasConOroMismoAnio = async (pet, resp) => {
+    try {
+        let consultaSelect=`SELECT p.idparticipacion, a.nombre, e.descripcion, p.anio, p.medalla
+                                FROM participaciones AS p
+                                INNER JOIN atletas AS a
+                                ON p.atletas_idatleta = a.idatleta
+                                INNER JOIN eventos AS e
+                                ON p.eventos_idevento = e.idevento
+                                WHERE medalla='Oro'`;
+        const [atletas] = await bd.query(consultaSelect);
+        resp.render('vistasAtletas/atletasConOro', {atletas: atletas})
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasAtletas/atletasConOro', {
+            alertaError: true,
+        })
+    }
 }
-export const atletasConPaises = (pet, resp) => {
-    resp.render('vistasAtletas/atletasConPaises');
+export const atletasConPaises = async (pet, resp) => {
+    try {
+        let consultaSelect=`SELECT paises_ISO, nombre FROM atletas`;
+        const [atletas] = await bd.query(consultaSelect);
+        resp.render('vistasAtletas/atletasConPaises', {atletas: atletas})
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasAtletas/atletasConPaises', {
+            alertaError: true,
+        })
+    }
 }
-export const atletasFemeninas = (pet, resp) => {
-    resp.render('vistasAtletas/atletasFemeninas');
+export const atletasFemeninas = async (pet, resp) => {
+    try {
+        let consultaSelect=`SELECT * FROM atletas WHERE genero='Femenino'`;
+        const [atletas] = await bd.query(consultaSelect);
+        atletas.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        resp.render('vistasAtletas/atletasFemeninas', {atletas: atletas})
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasAtletas/atletasFemeninas', {
+            alertaError: true,
+        })
+    }
 }
-export const mayoresA30 = (pet, resp) => {
-    resp.render('vistasAtletas/mayoresA30');
+export const mayoresA30 = async (pet, resp) => {
+    try {
+        let consultaSelect=`SELECT * FROM atletas WHERE edad>30`;
+        const [atletas] = await bd.query(consultaSelect);
+        resp.render('vistasAtletas/mayoresA30', {atletas: atletas})
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasAtletas/mayoresA30', {
+            alertaError: true,
+        })
+    }
 }
-export const promedios = (pet, resp) => {
-    resp.render('vistasAtletas/promedios');
+export const promedios = async (pet, resp) => {
+    try {
+        let consultaSelect=`SELECT estatura, peso FROM atletas`;
+        const [atletas] = await bd.query(consultaSelect);
+        resp.render('vistasAtletas/promedios', {atletas: atletas})
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasAtletas/promedios', {
+            alertaError: true,
+        })
+    }
 }
 
 // CRUD atletas

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Paises sin medalla</title>
 </head>
 <body>
@@ -15,6 +16,40 @@
         </nav>
     </header>
     <h1>PAISES SIN MEDALLA</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ISO</th>
+                <th>PAIS</th>
+                <th>MEDALLAS</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% if (paises.length === 0) { %>
+            <tr>
+                <td colspan="3" style="text-align: center;">No se encontraron paises</td>
+            </tr>
+        <% } else{ %>
+        <% paises.forEach(pais => { %>
+            <tr>
+                <td> <%= pais.ISO%></td>
+                <td> <%= pais.nombre %></td>
+                <td> <%= pais.total_medallas %></td>
+            </tr>         
+        <% }); %>
+        <% } %>
+        </tbody>
+    </table>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>
 

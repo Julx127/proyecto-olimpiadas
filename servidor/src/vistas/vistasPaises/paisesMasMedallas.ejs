@@ -15,6 +15,40 @@
         </nav>
     </header>
     <h1>PAISES CON MAS MEDALLAS</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ISO</th>
+                <th>PAIS</th>
+                <th>MEDALLAS</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% if (paises.length === 0) { %>
+            <tr>
+                <td colspan="3" style="text-align: center;">No se encontraron paises</td>
+            </tr>
+        <% } else{ %>
+        <% paises.forEach(pais => { %>
+            <tr>
+                <td> <%= pais.ISO%></td>
+                <td> <%= pais.nombre %></td>
+                <td> <%= pais.total_medallas %></td>
+            </tr>         
+        <% }); %>
+        <% } %>
+        </tbody>
+    </table>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>
 

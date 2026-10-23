@@ -44,11 +44,47 @@ export const modificarEventos = (pet, resp) => {
 export const eliminarEventos = (pet, resp) => {
     resp.render('vistasEventos/eliminarEventos');
 }
-export const eventosId1 = (pet, resp) => {
-    resp.render('vistasEventos/eventosId1');
+export const eventosId1 = async (pet, resp) => {
+    try {
+            let consultaSelect=`SELECT e.idevento, d.nombre, e.descripcion
+                                FROM eventos AS e
+                                INNER JOIN deportes AS d
+                                ON e.deportes_iddeporte = d.iddeporte
+                                WHERE e.deportes_iddeporte=1`;
+            const [eventos] = await bd.query(consultaSelect);
+            resp.render('vistasEventos/eventosId1', {eventos: eventos});        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasEventos/eventosId1', {
+            alertaError: true,
+        })
+    }
 }
-export const eventosMasParticipantes = (pet, resp) => {
-    resp.render('vistasEventos/eventosMasParticipantes');
+export const eventosMasParticipantes = async (pet, resp) => {
+    try {
+            let consultaSelect=`WITH posiciones AS (
+                                SELECT 
+                                    e.idevento, 
+                                    e.descripcion, 
+                                    d.nombre AS nombre_deporte,
+                                    COUNT(DISTINCT p.atletas_idatleta) AS total_participantes,
+                                    DENSE_RANK() OVER (ORDER BY COUNT(DISTINCT p.atletas_idatleta) DESC) AS ranking
+                                FROM participaciones p
+                                INNER JOIN eventos e ON p.eventos_idevento = e.idevento
+                                INNER JOIN deportes d ON e.deportes_iddeporte = d.iddeporte
+                                GROUP BY e.idevento, e.descripcion, d.nombre
+                                )
+                                SELECT idevento, descripcion, nombre_deporte, total_participantes
+                                FROM posiciones
+                                WHERE ranking = 1`;
+            const [eventos] = await bd.query(consultaSelect);
+            resp.render('vistasEventos/eventosMasParticipantes', {eventos: eventos});        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasEventos/eventosMasParticipantes', {
+            alertaError: true,
+        })
+    }
 }
 
 // CRUD eventos

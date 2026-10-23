@@ -57,18 +57,24 @@ export const atletasConOro = async (pet, resp) => {
 }
 export const atletasConOroMismoAnio = async (pet, resp) => {
     try {
-        let consultaSelect=`SELECT p.idparticipacion, a.nombre, e.descripcion, p.anio, p.medalla
-                                FROM participaciones AS p
-                                INNER JOIN atletas AS a
-                                ON p.atletas_idatleta = a.idatleta
-                                INNER JOIN eventos AS e
-                                ON p.eventos_idevento = e.idevento
-                                WHERE medalla='Oro'`;
+        // Primero se filtran los atletas igual que en atletasConOro, y despues se usa el operador IN para indicar que solo se muestre la fila si tanto el atleta como el año se encuentran en la lista filtrada. La lista filtrada busca si, dentro de las participaciones con oro, se repiten tanto el atleta como al año mas de una vez
+        let consultaSelect=`SELECT p.idparticipacion, a.nombre, e.descripcion, p.anio, p.medalla 
+                            FROM participaciones AS p 
+                            INNER JOIN atletas AS a ON p.atletas_idatleta = a.idatleta 
+                            INNER JOIN eventos AS e ON p.eventos_idevento = e.idevento 
+                            WHERE p.medalla = 'Oro'
+                            AND (a.idatleta, p.anio) IN (
+                                SELECT p2.atletas_idatleta, p2.anio
+                                FROM participaciones AS p2
+                                WHERE p2.medalla = 'Oro'
+                                GROUP BY p2.atletas_idatleta, p2.anio
+                                HAVING COUNT(*) > 1
+                            );`;
         const [atletas] = await bd.query(consultaSelect);
-        resp.render('vistasAtletas/atletasConOro', {atletas: atletas})
+        resp.render('vistasAtletas/atletasConOroMismoAnio', {atletas: atletas})
     } catch (error) {
         console.log('Error en la sentencia: ', error);
-        resp.render('vistasAtletas/atletasConOro', {
+        resp.render('vistasAtletas/atletasConOroMismoAnio', {
             alertaError: true,
         })
     }

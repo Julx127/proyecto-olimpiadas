@@ -15,5 +15,43 @@
         </nav>
     </header>
     <h1>ATLETAS CON MEDALLAS DE ORO DEL MISMO AÑO</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID PARTICIPACION</th>
+                <th>ATLETA</th>
+                <th>EVENTO</th>
+                <th>AÑO</th>
+                <th>MEDALLA</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% if (atletas.length === 0) { %>
+            <tr>
+                <td colspan="7" style="text-align: center;">No se encontraron atletas</td>
+            </tr>
+        <% } else{ %>
+        <% atletas.forEach (atleta => { %>
+            <tr>
+                <td> <%= atleta.idparticipacion %></td>
+                <td> <%= atleta.nombre %></td>
+                <td> <%= atleta.descripcion %></td>
+                <td> <%= atleta.anio %></td>
+                <td> <%= atleta.medalla %></td>
+            </tr>         
+        <% }); %>
+        <% } %>
+        </tbody>
+    </table>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>

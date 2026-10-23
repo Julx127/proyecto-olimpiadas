@@ -3,6 +3,13 @@
     padding: 0;
     text-decoration: none;
 }
+.menuPrincipalInicio{
+    background-color: rgb(255, 203, 197);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 1vw;
+}
 .menuPrincipal{
     background-color: rgb(197, 198, 255);
     display: flex;

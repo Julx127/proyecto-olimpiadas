@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Evento con más participantes</title>
 </head>
 <body>
@@ -15,5 +16,41 @@
         </nav>
     </header>
     <h1>EVENTO CON MAS PARTICIPANTES</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>DESCRIPCION</th>
+                <th>NOMBRE DEL DEPORTE</th>
+                <th>PARTICIPANTES</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% if (eventos.length === 0) { %>
+            <tr>
+                <td colspan="4" style="text-align: center;">No se encontraron eventos</td>
+            </tr>
+        <% } else{ %>
+        <% eventos.forEach(evento => { %>
+            <tr>
+                <td> <%= evento.idevento %></td>
+                <td> <%= evento.descripcion %></td>
+                <td> <%= evento.nombre_deporte %></td>
+                <td> <%= evento.total_participantes %></td>
+            </tr>         
+        <% }); %>
+        <% } %>
+        </tbody>
+    </table>
+    
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>

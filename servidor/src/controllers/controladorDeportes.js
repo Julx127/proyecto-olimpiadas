@@ -10,16 +10,15 @@ export const crearDeportes = (pet, resp) => {
     resp.render('vistasDeportes/crearDeportes');
 }
 export const verDeportes = async (pet, resp) => {
-    let id;
-    id=pet.query.id;
-    id=Number(id);
+    let nombre;
+    nombre=pet.query.nombre;
     try {
-        if(!id){
+        if(!nombre){
             let consultaSelect=`SELECT * FROM deportes`;
             const [deportes] = await bd.query(consultaSelect);
             resp.render('vistasDeportes/verDeportes', {deportes: deportes});
         } else{
-            let consultaSelect=`SELECT * FROM deportes WHERE iddeporte=${id}`;
+            let consultaSelect=`SELECT * FROM deportes WHERE LOWER(nombre) LIKE LOWER('%${nombre}%')`;
             const [deportes] = await bd.query(consultaSelect);
             resp.render('vistasDeportes/verDeportes', {deportes: deportes});
         }

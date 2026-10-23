@@ -10,16 +10,15 @@ export const crearAtletas = (pet, resp) => {
     resp.render('vistasAtletas/crearAtletas');
 }
 export const verAtletas = async (pet, resp) => {
-    let id;
-    id=pet.query.id;
-    id=Number(id);
+    let nombre;
+    nombre=pet.query.nombre;
     try {
-        if(!id){
+        if(!nombre){
             let consultaSelect=`SELECT * FROM atletas`;
             const [atletas] = await bd.query(consultaSelect);
             resp.render('vistasAtletas/verAtletas', {atletas: atletas});
         } else{
-            let consultaSelect=`SELECT * FROM atletas WHERE idatleta=${id}`;
+            let consultaSelect=`SELECT * FROM atletas WHERE LOWER(nombre) LIKE LOWER('%${nombre}%');`; // LOWER convierte ambos en minuscula, y like hace que no se tenga que ingresar completo el dato
             const [atletas] = await bd.query(consultaSelect);
             resp.render('vistasAtletas/verAtletas', {atletas: atletas});
         }
@@ -34,8 +33,25 @@ export const verAtletas = async (pet, resp) => {
 export const modificarAtletas = (pet, resp) => {
     resp.render('vistasAtletas/modificarAtletas');
 }
-export const eliminarAtletas = (pet, resp) => {
-    resp.render('vistasAtletas/eliminarAtletas');
+export const eliminarAtletas = async (pet, resp) => {
+    let id;
+    id=pet.query.id;
+    id=Number(id);
+    try {
+        if(!id){
+            return resp.render('vistasAtletas/eliminarAtletas', { atletas: [] })
+        } else{
+            let consultaSelect=`SELECT * FROM atletas WHERE idatleta=${id}`;
+            const [atletas] = await bd.query(consultaSelect);
+            resp.render('vistasAtletas/eliminarAtletas', {atletas: atletas});
+        }
+        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasAtletas/eliminarAtletas', {
+            alertaError: true,
+        })
+    }
 }
 export const atletasConOro = async (pet, resp) => {
     try {
@@ -153,6 +169,24 @@ export const crearAtletasSQL= async (pet, resp) => {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasAtletas/crearAtletas', {
             alertaError: true
+        })
+    }
+}
+export const eliminarAtletasSQL= async (pet, resp) => {
+    let id;
+    id=pet.body.id;
+    id=Number(id);
+    try {
+            let consultaEliminar=`DELETE FROM atletas WHERE idatleta=${id}`;
+            const [registro]=await bd.query(consultaEliminar);
+            resp.render('vistasAtletas/eliminarAtletas', {
+            alertaExito: true,
+            atletas: [] 
+        })        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasAtletas/eliminarAtletas', {
+            alertaError: true,
         })
     }
 }

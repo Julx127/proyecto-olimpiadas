@@ -66,6 +66,10 @@ input{
     width: 15%;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+button{
+    border-radius: 1vw;
+    padding: 0.5vw;
+}
 h1{
     width: 100%;
     text-align: center;

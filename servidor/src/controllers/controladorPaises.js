@@ -10,17 +10,15 @@ export const crearPaises = (pet, resp) => {
     resp.render('vistasPaises/crearPaises');
 }
 export const verPaises = async (pet, resp) => {
-    let ISO;
-    ISO=pet.query.ISO;
-
+    let nombre;
+    nombre=pet.query.nombre;
     try {
-        if(!ISO){
+        if(!nombre){
             let consultaSelect=`SELECT * FROM paises`;
             const [paises] = await bd.query(consultaSelect);
             resp.render('vistasPaises/verPaises', {paises: paises});
         } else{
-            ISO=ISO.toUpperCase();
-            let consultaSelect=`SELECT * FROM paises WHERE ISO='${ISO}'`;
+            let consultaSelect=`SELECT * FROM paises WHERE LOWER(nombre) LIKE LOWER('%${nombre}%')`;
             const [paises] = await bd.query(consultaSelect);
             resp.render('vistasPaises/verPaises', {paises: paises});
         }

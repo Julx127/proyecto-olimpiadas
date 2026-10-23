@@ -10,11 +10,10 @@ export const crearEventos = (pet, resp) => {
     resp.render('vistasEventos/crearEventos');
 }
 export const verEventos = async (pet, resp) => {
-    let id;
-    id=pet.query.id;
-    id=Number(id);
+    let descripcion;
+    descripcion=pet.query.descripcion;
     try {
-        if(!id){
+        if(!descripcion){
             let consultaSelect=`SELECT e.idevento, d.nombre, e.descripcion
                                 FROM eventos AS e
                                 INNER JOIN deportes AS d
@@ -26,7 +25,7 @@ export const verEventos = async (pet, resp) => {
                                 FROM eventos AS e
                                 INNER JOIN deportes AS d
                                 ON e.deportes_iddeporte = d.iddeporte
-                                WHERE idevento=${id}`;
+                                WHERE LOWER(descripcion) LIKE LOWER('%${descripcion}%')`;
             const [eventos] = await bd.query(consultaSelect);
             resp.render('vistasEventos/verEventos', {eventos: eventos});
         }

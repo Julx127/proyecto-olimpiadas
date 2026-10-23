@@ -10,11 +10,11 @@ export const crearParticipaciones = (pet, resp) => {
     resp.render('vistasParticipaciones/crearParticipaciones');
 }
 export const verParticipaciones = async (pet, resp) => {
-    let id;
-    id=pet.query.id;
-    id=Number(id);
+    let anio;
+    anio=pet.query.anio;
+    anio=Number(anio);
     try {
-        if(!id){
+        if(!anio){
             let consultaSelect=`SELECT p.idparticipacion, a.nombre, e.descripcion, p.anio, p.medalla
                                 FROM participaciones AS p
                                 INNER JOIN atletas AS a
@@ -30,7 +30,7 @@ export const verParticipaciones = async (pet, resp) => {
                                 ON p.atletas_idatleta = a.idatleta
                                 INNER JOIN eventos AS e
                                 ON p.eventos_idevento = e.idevento
-                                WHERE idparticipacion=${id}`;
+                                WHERE anio=${anio}`;
             const [participaciones] = await bd.query(consultaSelect);
             resp.render('vistasParticipaciones/verParticipaciones', {participaciones: participaciones});
         }
@@ -68,7 +68,7 @@ export const crearParticipacionesSQL= async (pet, resp) => {
 
         let consultaInsertar=`INSERT INTO participaciones (atletas_idatleta, eventos_idevento, anio, medalla) VALUES ('${idAtleta}', '${idEvento}', '${anio}', '${medalla}')`;
         const [registro]=await bd.query(consultaInsertar);
-        resp.render('vistasParticipacion/crearParticipacion', {
+        resp.render('vistasParticipaciones/crearParticipaciones', {
             alertaExito: true,
         })
     } catch (error) {

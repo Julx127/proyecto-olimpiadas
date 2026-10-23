@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Eliminar atleta</title>
 </head>
 <body>
@@ -15,5 +16,88 @@
         </nav>
     </header>
     <h1>ELIMINAR ATLETA</h1>
+    <form action="/atletas/eliminarAtletas" method="GET">
+        <input name="id" type="number" placeholder="ID del atleta" size="15">
+        <button name="enviar" type="submit">BUSCAR</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>PAIS</th>
+                <th>NOMBRE</th>
+                <th>GENERO</th>
+                <th>EDAD</th>
+                <th>ESTATURA</th>
+                <th>PESO</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% if (atletas.length === 0) { %>
+            <tr>
+                <td colspan="7" style="text-align: center;">No se encontraron atletas</td>
+            </tr>
+        <% } else{ %>
+        <% atletas.forEach (atleta => { %>
+            <tr>
+                <td> <%= atleta.idatleta %></td>
+                <td> <%= atleta.paises_ISO %></td>
+                <td> <%= atleta.nombre %></td>
+                <td> <%= atleta.genero %></td>
+                <td> <%= atleta.edad %></td>
+                <td> <%= atleta.estatura %></td>
+                <td> <%= atleta.peso %></td>
+            </tr>         
+        <% }); %>
+        <% } %>
+        </tbody>
+    </table>
+
+    <form id="formularioEliminar" action="/atletas/eliminarAtletasSQL" method="POST" onsubmit="confirmarEliminacion(event)">
+        <input name="id" type="number" placeholder="ID del atleta" size="15" required>
+        <button name="enviar" type="submit" style="background-color: rgb(190, 90, 90); color: white;">ELIMINAR</button>
+    </form>
+
+    
+<script>
+    function confirmarEliminacion(evento){
+        evento.preventDefault(); // detiene la acción del formulario
+        const formulario=evento.target; // guardo lo que el formulario quiere hacer
+        Swal.fire({
+            title: "ESTAS SEGURO?",
+            text: "Esta acción no se podrá revertir",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            formulario.submit(); // si el usuario confirma, se envia el formulario
+        }
+        });
+    }
+</script>
+
+<% if ( typeof alertaExito !== 'undefined' && alertaExito) { %>
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "EXITOS!",
+            text: "Se elimino el atleta correctamente",
+            });
+    </script>
+    <% } %>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>

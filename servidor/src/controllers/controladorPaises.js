@@ -33,8 +33,24 @@ export const verPaises = async (pet, resp) => {
 export const modificarPaises = (pet, resp) => {
     resp.render('vistasPaises/modificarPaises');
 }
-export const eliminarPaises = (pet, resp) => {
-    resp.render('vistasPaises/eliminarPaises');
+export const eliminarPaises = async (pet, resp) => {
+    let nombre;
+    nombre=pet.query.nombre;
+    try {
+        if(!nombre){
+            resp.render('vistasPaises/eliminarPaises', {paises: [] });
+        } else{
+            let consultaSelect=`SELECT * FROM paises WHERE LOWER(nombre) LIKE LOWER('%${nombre}%')`;
+            const [paises] = await bd.query(consultaSelect);
+            resp.render('vistasPaises/eliminarPaises', {paises: paises});
+        }
+        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasPaises/eliminarPaises', {
+            alertaError: true,
+        })
+    }
 }
 export const paisesConSusAtletas = async (pet, resp) => {
     try {
@@ -110,6 +126,24 @@ export const crearPaisesSQL= async (pet, resp) => {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasPaises/crearPaises', {
             alertaError: true
+        })
+    }
+}
+export const eliminarPaisesSQL = async (pet, resp) => {
+    let ISO;
+    ISO=pet.body.ISO;
+    ISO=ISO.toUpperCase();
+    try {
+            let consultaEliminar=`DELETE FROM paises WHERE ISO='${ISO}'`;
+            const [registro]=await bd.query(consultaEliminar);
+            resp.render('vistasPaises/eliminarPaises', {
+            alertaExito: true,
+            paises: [] 
+        })        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasPaises/eliminarPaises', {
+            alertaError: true,
         })
     }
 }

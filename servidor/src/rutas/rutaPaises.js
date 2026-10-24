@@ -1,5 +1,5 @@
 import express from 'express';
-import { menuPaises, verPaises, eliminarPaises, modificarPaises, crearPaises, paisesConSusAtletas, paisesMasMedallas, paisesSinMedalla, crearPaisesSQL } from '../controllers/controladorPaises.js';
+import { menuPaises, verPaises, eliminarPaises, modificarPaises, crearPaises, paisesConSusAtletas, paisesMasMedallas, paisesSinMedalla, crearPaisesSQL, eliminarPaisesSQL } from '../controllers/controladorPaises.js';
 
 const rPaises=express.Router();
 
@@ -16,5 +16,7 @@ rPaises.get('/paises/paisesSinMedalla', paisesSinMedalla);
 // rutas CRUD paises
 rPaises.post('/paises/crearPaises', crearPaisesSQL);
 rPaises.post('/paises/crearPaisesSQL', crearPaisesSQL);
+rPaises.post('/paises/eliminarPaises', eliminarPaisesSQL);
+rPaises.post('/paises/eliminarPaisesSQL', eliminarPaisesSQL);
 
 export{rPaises};

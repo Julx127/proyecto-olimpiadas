@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Eliminar paises</title>
 </head>
 <body>
@@ -15,5 +16,80 @@
         </nav>
     </header>
     <h1>ELIMINAR PAISES</h1>
+
+    <form action="/paises/eliminarPaises" method="GET">
+        <input name="nombre" type="text" placeholder="Nombre del país" size="15">
+        <button name="enviar" type="submit">BUSCAR</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ISO</th>
+                <th>NOMBRE</th>
+                <th>CONTINENTE</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% if (paises.length === 0) { %>
+            <tr>
+                <td colspan="3" style="text-align: center;">No se encontraron paises</td>
+            </tr>
+        <% } else{ %>
+        <% paises.forEach(pais => { %>
+            <tr>
+                <td> <%= pais.ISO %></td>
+                <td> <%= pais.nombre %></td>
+                <td> <%= pais.continente %></td>
+            </tr>         
+        <% }); %>
+        <% } %>
+        </tbody>
+    </table>
+
+    <form id="formularioEliminar" action="/paises/eliminarPaisesSQL" method="POST" onsubmit="confirmarEliminacion(event)">
+        <input name="ISO" type="text" placeholder="ISO del país" maxlength="3" size="15" required>
+        <button name="enviar" type="submit" style="background-color: rgb(190, 90, 90); color: white;">ELIMINAR</button>
+    </form>
+
+<script>
+    function confirmarEliminacion(evento){
+        evento.preventDefault(); 
+        const formulario=evento.target; 
+        Swal.fire({
+            title: "ESTAS SEGURO?",
+            text: "Esta acción no se podrá revertir",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            formulario.submit(); 
+        }
+        });
+    }
+</script>
+
+<% if ( typeof alertaExito !== 'undefined' && alertaExito) { %>
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "EXITOS!",
+            text: "Se elimino el pais correctamente",
+            });
+    </script>
+    <% } %>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>

@@ -34,14 +34,13 @@ export const modificarAtletas = (pet, resp) => {
     resp.render('vistasAtletas/modificarAtletas');
 }
 export const eliminarAtletas = async (pet, resp) => {
-    let id;
-    id=pet.query.id;
-    id=Number(id);
+    let nombre;
+    nombre=pet.query.nombre;
     try {
-        if(!id){
+        if(!nombre){
             return resp.render('vistasAtletas/eliminarAtletas', { atletas: [] })
         } else{
-            let consultaSelect=`SELECT * FROM atletas WHERE idatleta=${id}`;
+            let consultaSelect=`SELECT * FROM atletas WHERE LOWER(nombre) LIKE LOWER('%${nombre}%');`;
             const [atletas] = await bd.query(consultaSelect);
             resp.render('vistasAtletas/eliminarAtletas', {atletas: atletas});
         }

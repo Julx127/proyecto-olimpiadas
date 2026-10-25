@@ -1,5 +1,5 @@
 import express from 'express';
-import { menuParticipaciones, verParticipaciones, modificarParticipaciones, crearParticipaciones, eliminarParticipaciones, crearParticipacionesSQL, eliminarParticipacionesSQL } from '../controllers/controladorParticipaciones.js';
+import { menuParticipaciones, verParticipaciones, modificarParticipaciones, crearParticipaciones, eliminarParticipaciones, crearParticipacionesSQL, eliminarParticipacionesSQL, modificarParticipacionesSQL } from '../controllers/controladorParticipaciones.js';
 
 const rParticipaciones=express.Router();
 
@@ -15,5 +15,7 @@ rParticipaciones.post('/participaciones/crearParticipaciones', crearParticipacio
 rParticipaciones.post('/participaciones/crearParticipacionesSQL', crearParticipacionesSQL);
 rParticipaciones.post('/participaciones/eliminarParticipaciones', eliminarParticipacionesSQL);
 rParticipaciones.post('/participaciones/eliminarParticipacionesSQL', eliminarParticipacionesSQL);
+rParticipaciones.post('/participaciones/modificarParticipaciones', modificarParticipacionesSQL);
+rParticipaciones.post('/participaciones/modificarParticipacionesSQL', modificarParticipacionesSQL);
 
 export{rParticipaciones};

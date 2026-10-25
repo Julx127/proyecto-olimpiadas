@@ -30,8 +30,27 @@ export const verAtletas = async (pet, resp) => {
         })
     }
 }
-export const modificarAtletas = (pet, resp) => {
-    resp.render('vistasAtletas/modificarAtletas');
+export const modificarAtletas = async (pet, resp) => {
+    let nombre;
+    nombre=pet.query.nombre;
+    try {
+        if(!nombre){
+            return resp.render('vistasAtletas/modificarAtletas', { atletas: [] })
+        } else{
+            let consultaSelect=`SELECT atletas.idatleta, atletas.nombre, atletas.genero, atletas.edad, atletas.estatura, atletas.peso, paises.nombre AS nombre_pais
+                                FROM atletas
+                                INNER JOIN paises ON atletas.paises_ISO = paises.ISO
+                                WHERE LOWER(atletas.nombre) LIKE LOWER('%${nombre}%');`;
+            const [atletas] = await bd.query(consultaSelect);
+            resp.render('vistasAtletas/modificarAtletas', {atletas: atletas});
+        }
+        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasAtletas/modificarAtletas', {
+            alertaError: true,
+        })
+    }
 }
 export const eliminarAtletas = async (pet, resp) => {
     let nombre;
@@ -185,6 +204,43 @@ export const eliminarAtletasSQL= async (pet, resp) => {
     } catch (error) {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasAtletas/eliminarAtletas', {
+            alertaError: true,
+        })
+    }
+}
+
+export const modificarAtletasSQL = async (pet, resp) => {
+    let id, nombrePais, nombre, genero, edad, estatura, peso;
+    id=pet.body.id;
+    id=Number(id);
+    nombrePais=pet.body.pais;
+    nombre=pet.body.nombre;
+    genero=pet.body.genero;
+    edad=pet.body.edad;
+    estatura=pet.body.estatura;
+    peso=pet.body.peso;
+
+    try {
+        const consultaPais = `SELECT ISO FROM paises WHERE nombre COLLATE utf8_unicode_ci='${nombrePais}'`;
+        const [resultadoPais]=await bd.query(consultaPais);
+        if (!resultadoPais || resultadoPais.length === 0) {
+            resp.render('vistasAtletas/modificarAtletas', {
+                alertaError: true, 
+                atletas: []
+            })
+            throw new Error(`No se encontró el pais con nombre: ${nombrePais}`);
+        }
+        const ISOpais=resultadoPais[0].ISO;
+
+        let consultaModificar=`UPDATE atletas SET paises_iso='${ISOpais}', nombre='${nombre}', genero='${genero}', edad='${edad}', estatura='${estatura}', peso='${peso}' WHERE idatleta=${id}`;
+        const [registro]=await bd.query(consultaModificar);
+        resp.render('vistasAtletas/modificarAtletas', {
+            alertaExito: true,
+            atletas: [] 
+        })
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasAtletas/modificarAtletas', {
             alertaError: true,
         })
     }

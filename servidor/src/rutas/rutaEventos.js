@@ -1,5 +1,5 @@
 import express from 'express';
-import { menuEventos, crearEventos, modificarEventos, verEventos, eliminarEventos, eventosId1, eventosMasParticipantes, crearEventosSQL, eliminarEventosSQL } from '../controllers/controladorEventos.js';
+import { menuEventos, crearEventos, modificarEventos, verEventos, eliminarEventos, eventosId1, eventosMasParticipantes, crearEventosSQL, eliminarEventosSQL, modificarEventosSQL } from '../controllers/controladorEventos.js';
 
 const rEventos=express.Router();
 
@@ -17,4 +17,7 @@ rEventos.post('/eventos/crearEventos', crearEventosSQL);
 rEventos.post('/eventos/crearEventosSQL', crearEventosSQL);
 rEventos.post('/eventos/eliminarEventos', eliminarEventosSQL);
 rEventos.post('/eventos/eliminarEventosSQL', eliminarEventosSQL);
+rEventos.post('/eventos/modificarEventos', modificarEventosSQL);
+rEventos.post('/eventos/modificarEventosSQL', modificarEventosSQL);
+
 export{rEventos};

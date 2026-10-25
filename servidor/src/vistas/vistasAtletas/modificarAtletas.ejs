@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Modificar atleta</title>
 </head>
 <body>
@@ -15,5 +16,77 @@
         </nav>
     </header>
     <h1>MODIFICAR ATLETA</h1>
+    <form action="/atletas/modificarAtletas" method="GET">
+        <input name="nombre" type="text" placeholder="Nombre o apellido del atleta" size="15">
+        <button name="enviar" type="submit">BUSCAR</button>
+    </form>
+
+    <form id="formularioModificar" action="/atletas/modificarAtletasSQL" method="POST" onsubmit="confirmarModificacion(event)">
+        <input name="id" type="text" placeholder="ID del atleta" size="15" readonly required value="<%= typeof atletas.length !== 'undefined' && atletas.length > 0 ? atletas[0].idatleta : '' %>">
+        <input name="nombre" type="text" placeholder="Nombre del atleta" size="20"  required value="<%= typeof atletas.length !== 'undefined' && atletas.length > 0 ? atletas[0].nombre : '' %>">
+        <input name="pais" type="text" placeholder="País del atleta" size="20"  required value="<%= typeof atletas.length !== 'undefined' && atletas.length > 0 ? atletas[0].nombre_pais : '' %>">
+        <select name="genero" required>
+            <% let generoActual = typeof atletas.length !== 'undefined' && atletas.length > 0 ? atletas[0].genero : ''; %>
+            <option value="Femenino" <%= generoActual === 'Femenino' ? 'selected' : '' %>>Femenino</option>
+            <option value="Masculino" <%= generoActual === 'Masculino' ? 'selected' : '' %>>Masculino</option>
+        </select>
+        <input name="edad" type="text" placeholder="Edad del atleta" size="20"  required value="<%= typeof atletas.length !== 'undefined' && atletas.length > 0 ? atletas[0].edad : '' %>">
+        <input name="estatura" type="text" placeholder="Estatura del atleta" size="20"  required value="<%= typeof atletas.length !== 'undefined' && atletas.length > 0 ? atletas[0].estatura : '' %>">
+        <input name="peso" type="text" placeholder="Peso del atleta" size="20"  required value="<%= typeof atletas.length !== 'undefined' && atletas.length > 0 ? atletas[0].peso : '' %>">
+        <button name="enviar" type="submit" style="background-color: rgb(114, 43, 110); color: white;">MODIFICAR</button>
+    </form>
+
+    <script> 
+    function confirmarModificacion(evento){
+        evento.preventDefault(); 
+        const formulario=evento.target;
+        const idInput = document.querySelector('input[name="id"]');
+        
+        if (!idInput.value.trim()) {
+            Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "El ID del atleta está vacío, busca un atleta antes de modificarlo",
+            });
+            return false;
+        }
+
+        Swal.fire({
+            title: "ESTAS SEGURO?",
+            text: "Esta acción no se podrá revertir",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Modificar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            formulario.submit(); 
+        }
+        });
+    }
+</script>
+
+<% if ( typeof alertaExito !== 'undefined' && alertaExito) { %>
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "EXITOS!",
+            text: "Se modificó el atleta correctamente",
+            });
+    </script>
+    <% } %>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
+
 </body>
 </html>

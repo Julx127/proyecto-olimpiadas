@@ -1,5 +1,5 @@
 import express from 'express';
-import { menuDeportes, crearDeportes, verDeportes, eliminarDeportes, modificarDeportes, crearDeportesSQL, eliminarDeportesSQL} from '../controllers/controladorDeportes.js';
+import { menuDeportes, crearDeportes, verDeportes, eliminarDeportes, modificarDeportes, crearDeportesSQL, eliminarDeportesSQL, modificarDeportesSQL} from '../controllers/controladorDeportes.js';
 
 const rDeportes=express.Router();
 
@@ -15,5 +15,7 @@ rDeportes.post('/deportes/crearDeportes', crearDeportesSQL);
 rDeportes.post('/deportes/crearDeportesSQL', crearDeportesSQL);
 rDeportes.post('/deportes/eliminarDeportes', eliminarDeportesSQL);
 rDeportes.post('/deportes/eliminarDeportesSQL', eliminarDeportesSQL);
+rDeportes.post('/deportes/modificarDeportes', modificarDeportesSQL);
+rDeportes.post('/deportes/modificarDeportesSQL', modificarDeportesSQL);
 
 export{rDeportes};

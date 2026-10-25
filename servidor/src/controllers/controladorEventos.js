@@ -37,9 +37,29 @@ export const verEventos = async (pet, resp) => {
         })
     }
 }
-export const modificarEventos = (pet, resp) => {
-    resp.render('vistasEventos/modificarEventos');
+export const modificarEventos = async (pet, resp) => {
+    let descripcion;
+    descripcion=pet.query.descripcion;
+    try {
+        if(!descripcion){
+            resp.render('vistasEventos/modificarEventos', {eventos: []});
+        } else{
+            let consultaSelect=`SELECT e.idevento, d.nombre, e.descripcion
+                                FROM eventos AS e
+                                INNER JOIN deportes AS d
+                                ON e.deportes_iddeporte = d.iddeporte
+                                WHERE LOWER(descripcion) LIKE LOWER('%${descripcion}%')`;
+            const [eventos] = await bd.query(consultaSelect);
+            resp.render('vistasEventos/modificarEventos', {eventos: eventos});
+        } 
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasEventos/modificarEventos', {
+            alertaError: true,
+        })
+    }
 }
+
 export const eliminarEventos = async (pet, resp) => {
     let descripcion;
     descripcion=pet.query.descripcion;
@@ -54,8 +74,7 @@ export const eliminarEventos = async (pet, resp) => {
                                 WHERE LOWER(descripcion) LIKE LOWER('%${descripcion}%')`;
             const [eventos] = await bd.query(consultaSelect);
             resp.render('vistasEventos/eliminarEventos', {eventos: eventos});
-        }
-        
+        } 
     } catch (error) {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasEventos/eliminarEventos', {
@@ -144,6 +163,39 @@ export const eliminarEventosSQL= async (pet, resp) => {
     } catch (error) {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasEventos/eliminarEventos', {
+            alertaError: true,
+        })
+    }
+}
+
+export const modificarEventosSQL = async (pet, resp) => {
+    let id, nombreDeporte, descripcion;
+    id=pet.body.id;
+    id=Number(id);
+    nombreDeporte=pet.body.deporte;
+    descripcion=pet.body.descripcion;
+    
+    try {
+        const consultaDeporte = `SELECT iddeporte FROM deportes WHERE nombre COLLATE utf8_unicode_ci='${nombreDeporte}'`;
+        const [resultadoDeporte]=await bd.query(consultaDeporte);
+        if (!resultadoDeporte || resultadoDeporte.length === 0) {
+            resp.render('vistasEventos/modificarEventos', {
+                alertaError: true, 
+                eventos: []
+            })
+            throw new Error(`No se encontró el deporte con nombre: ${nombreDeporte}`);
+        }
+        const idDeporte=resultadoDeporte[0].iddeporte;
+
+        let consultaModificar=`UPDATE eventos SET deportes_iddeporte='${idDeporte}', descripcion='${descripcion}' WHERE idevento=${id}`;
+        const [registro]=await bd.query(consultaModificar);
+        resp.render('vistasEventos/modificarEventos', {
+            alertaExito: true,
+            eventos: [] 
+        })
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasEventos/modificarEventos', {
             alertaError: true,
         })
     }

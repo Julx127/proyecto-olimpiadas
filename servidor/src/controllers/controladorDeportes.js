@@ -30,8 +30,25 @@ export const verDeportes = async (pet, resp) => {
         })
     }
 }
-export const modificarDeportes = (pet, resp) => {
-    resp.render('vistasDeportes/modificarDeportes');
+export const modificarDeportes = async (pet, resp) => {
+     let nombre;
+    nombre=pet.query.nombre;
+    try {
+        if(!nombre){
+            resp.render('vistasDeportes/modificarDeportes', {deportes: []});
+        } else{
+            let consultaSelect=`SELECT * FROM deportes WHERE LOWER(nombre) LIKE LOWER('%${nombre}%')`;
+            const [deportes] = await bd.query(consultaSelect);
+            resp.render('vistasDeportes/modificarDeportes', {deportes: deportes});
+        }
+        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasDeportes/modificarDeportes', {
+            alertaError: true,
+        })
+    }
+    
 }
 export const eliminarDeportes = async (pet, resp) => {
     let nombre;
@@ -86,6 +103,26 @@ export const eliminarDeportesSQL= async (pet, resp) => {
     } catch (error) {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasDeportes/eliminarDeportes', {
+            alertaError: true,
+        })
+    }
+}
+
+export const modificarDeportesSQL= async (pet, resp) => {
+    let id, nombre;
+    id=pet.body.id;
+    id=Number(id);
+    nombre=pet.body.nombre;
+    try {
+        let consultaModificar=`UPDATE deportes SET nombre='${nombre}' WHERE iddeporte=${id}`;
+        const [registro]=await bd.query(consultaModificar);
+        resp.render('vistasDeportes/modificarDeportes', {
+            alertaExito: true,
+            deportes: [] 
+        })
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasDeportes/modificarDeportes', {
             alertaError: true,
         })
     }

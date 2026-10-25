@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Modificar deportes</title>
 </head>
 <body>
@@ -15,5 +16,68 @@
         </nav>
     </header>
     <h1>MODIFICAR DEPORTES</h1>
+    <form action="/deportes/modificarDeportes" method="GET">
+        <input name="nombre" type="text" placeholder="Nombre del deporte" size="15">
+        <button name="enviar" type="submit">BUSCAR</button>
+    </form>
+    
+
+    <form id="formularioModificar" action="/deportes/modificarDeportesSQL" method="POST" onsubmit="confirmarModificacion(event)">
+        <input name="id" type="number" placeholder="ID del deporte" size="15" readonly required value="<%= typeof deportes.length !== 'undefined' && deportes.length > 0 ? deportes[0].iddeporte : '' %>">
+        <input name="nombre" type="text" placeholder="Nombre del deporte" size="20"  required value="<%= typeof deportes.length !== 'undefined' && deportes.length > 0 ? deportes[0].nombre : '' %>">
+        <button name="enviar" type="submit" style="background-color: rgb(114, 43, 110); color: white;">MODIFICAR</button>
+    </form>
+
+<script> 
+    function confirmarModificacion(evento){
+        evento.preventDefault(); 
+        const formulario=evento.target; 
+        const idInput = document.querySelector('input[name="id"]');
+        
+        if (!idInput.value.trim()) {
+            Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "El ID del deporte está vacío, busca un deporte antes de modificarlo",
+            });
+            return false;
+        }
+
+        Swal.fire({
+            title: "ESTAS SEGURO?",
+            text: "Esta acción no se podrá revertir",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Modificar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            formulario.submit(); 
+        }
+        });
+    }
+</script>
+
+<% if ( typeof alertaExito !== 'undefined' && alertaExito) { %>
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "EXITOS!",
+            text: "Se modificó el deporte correctamente",
+            });
+    </script>
+    <% } %>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>

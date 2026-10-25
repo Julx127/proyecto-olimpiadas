@@ -1,5 +1,5 @@
 import express from 'express';
-import { menuAtletas, crearAtletas, verAtletas, modificarAtletas, eliminarAtletas, atletasConOro, atletasConOroMismoAnio, atletasConPaises, atletasFemeninas, mayoresA30, promedios, crearAtletasSQL, eliminarAtletasSQL } from '../controllers/controladorAtletas.js';
+import { menuAtletas, crearAtletas, verAtletas, modificarAtletas, eliminarAtletas, atletasConOro, atletasConOroMismoAnio, atletasConPaises, atletasFemeninas, mayoresA30, promedios, crearAtletasSQL, eliminarAtletasSQL, modificarAtletasSQL } from '../controllers/controladorAtletas.js';
 
 const rAtletas=express.Router();
 
@@ -21,5 +21,7 @@ rAtletas.post('/atletas/crearAtletas', crearAtletasSQL);
 rAtletas.post('/atletas/crearAtletasSQL', crearAtletasSQL);
 rAtletas.post('/atletas/eliminarAtletas', eliminarAtletasSQL);
 rAtletas.post('/atletas/eliminarAtletasSQL', eliminarAtletasSQL);
+rAtletas.post('/atletas/modificarAtletas', modificarAtletasSQL);
+rAtletas.post('/atletas/modificarAtletasSQL', modificarAtletasSQL);
 
 export{rAtletas};

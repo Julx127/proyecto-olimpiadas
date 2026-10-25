@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Eliminar eventos</title>
 </head>
 <body>
@@ -15,5 +16,79 @@
         </nav>
     </header>
     <h1>ELIMINAR EVENTOS</h1>
+    <form action="/eventos/eliminarEventos" method="GET">
+        <input name="descripcion" type="text" placeholder="Descripción del evento" size="20">
+        <button name="enviar" type="submit">BUSCAR</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>DEPORTE</th>
+                <th>DESCRIPCION</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% if (eventos.length === 0) { %>
+            <tr>
+                <td colspan="3" style="text-align: center;">No se encontraron eventos</td>
+            </tr>
+        <% } else{ %>
+        <% eventos.forEach(evento => { %>
+            <tr>
+                <td> <%= evento.idevento %></td>
+                <td> <%= evento.nombre %></td>
+                <td> <%= evento.descripcion %></td>
+            </tr>         
+        <% }); %>
+        <% } %>
+        </tbody>
+    </table>
+    
+    <form id="formularioEliminar" action="/eventos/eliminarEventosSQL" method="POST" onsubmit="confirmarEliminacion(event)">
+        <input name="id" type="number" placeholder="ID del evento" size="15" required>
+        <button name="enviar" type="submit" style="background-color: rgb(190, 90, 90); color: white;">ELIMINAR</button>
+    </form>
+
+<script>
+    function confirmarEliminacion(evento){
+        evento.preventDefault(); 
+        const formulario=evento.target; 
+        Swal.fire({
+            title: "ESTAS SEGURO?",
+            text: "Esta acción no se podrá revertir",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            formulario.submit(); 
+        }
+        });
+    }
+</script>
+
+<% if ( typeof alertaExito !== 'undefined' && alertaExito) { %>
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "EXITOS!",
+            text: "Se elimino el evento correctamente",
+            });
+    </script>
+    <% } %>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>

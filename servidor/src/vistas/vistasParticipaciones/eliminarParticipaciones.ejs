@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Eliminar participaciones</title>
 </head>
 <body>
@@ -15,6 +16,84 @@
         </nav>
     </header>
     <h1>ELIMINAR PARTICIPACIONES</h1>
+    <form action="/participaciones/eliminarParticipaciones" method="GET">
+        <input name="anio" type="number" placeholder="Año de la participación" size="15">
+        <button name="enviar" type="submit">BUSCAR</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ATLETA</th>
+                <th>EVENTO</th>
+                <th>AÑO</th>
+                <th>MEDALLA</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% if (participaciones.length === 0) { %>
+            <tr>
+                <td colspan="5" style="text-align: center;">No se encontraron participaciones</td>
+            </tr>
+        <% } else{ %>
+        <% participaciones.forEach(participacion => { %>
+            <tr>
+                <td> <%= participacion.idparticipacion %></td>
+                <td> <%= participacion.nombre %></td>
+                <td> <%= participacion.descripcion %></td>
+                <td> <%= participacion.anio %></td>
+                <td> <%= participacion.medalla %></td>
+            </tr>         
+        <% }); %>
+        <% } %>
+        </tbody>
+    </table>
+
+    <form action="/participaciones/eliminarParticipacionesSQL" method="POST">
+        <input name="id" type="number" placeholder="ID de la participación" size="15" required>
+        <button name="enviar" type="submit" style="background-color: rgb(190, 90, 90); color: white;">ELIMINAR</button>
+    </form>
+
+<script>
+    function confirmarEliminacion(evento){
+        evento.preventDefault(); 
+        const formulario=evento.target; 
+        Swal.fire({
+            title: "ESTAS SEGURO?",
+            text: "Esta acción no se podrá revertir",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            formulario.submit(); 
+        }
+        });
+    }
+</script>
+
+<% if ( typeof alertaExito !== 'undefined' && alertaExito) { %>
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "EXITOS!",
+            text: "Se elimino la participación correctamente",
+            });
+    </script>
+    <% } %>
+
+    <% if ( typeof alertaError !== 'undefined' && alertaError) { %>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salió mal :C",
+            });
+    </script>
+    <% } %>
 </body>
 </html>
 

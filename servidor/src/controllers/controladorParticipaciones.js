@@ -37,7 +37,7 @@ export const verParticipaciones = async (pet, resp) => {
         
     } catch (error) {
         console.log('Error en la sentencia: ', error);
-        resp.render('vistasParticipacion/verParticipacion', {
+        resp.render('vistasParticipaciones/verParticipaciones', {
             alertaError: true,
         })
     }
@@ -45,8 +45,31 @@ export const verParticipaciones = async (pet, resp) => {
 export const modificarParticipaciones = (pet, resp) => {
     resp.render('vistasParticipaciones/modificarParticipaciones');
 }
-export const eliminarParticipaciones = (pet, resp) => {
-    resp.render('vistasParticipaciones/eliminarParticipaciones');
+export const eliminarParticipaciones = async (pet, resp) => {
+    let anio;
+    anio=pet.query.anio;
+    anio=Number(anio);
+    try {
+        if(!anio){
+            resp.render('vistasParticipaciones/eliminarParticipaciones', {participaciones: []});
+        } else{
+            let consultaSelect=`SELECT p.idparticipacion, a.nombre, e.descripcion, p.anio, p.medalla
+                                FROM participaciones AS p
+                                INNER JOIN atletas AS a
+                                ON p.atletas_idatleta = a.idatleta
+                                INNER JOIN eventos AS e
+                                ON p.eventos_idevento = e.idevento
+                                WHERE anio=${anio}`;
+            const [participaciones] = await bd.query(consultaSelect);
+            resp.render('vistasParticipaciones/eliminarParticipaciones', {participaciones: participaciones});
+        }
+        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasParticipaciones/eliminarParticipaciones', {
+            alertaError: true,
+        })
+    }
 }
 
 // CRUD participaciones
@@ -75,6 +98,24 @@ export const crearParticipacionesSQL= async (pet, resp) => {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasParticipaciones/crearParticipaciones', {
             alertaError: true
+        })
+    }
+}
+export const eliminarParticipacionesSQL= async (pet, resp) => {
+    let id;
+    id=pet.body.id;
+    id=Number(id);
+    try {
+            let consultaEliminar=`DELETE FROM participaciones WHERE idparticipacion=${id}`;
+            const [registro]=await bd.query(consultaEliminar);
+            resp.render('vistasParticipaciones/eliminarParticipaciones', {
+            alertaExito: true,
+            participaciones: [] 
+        })        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasParticipaciones/eliminarParticipaciones', {
+            alertaError: true,
         })
     }
 }

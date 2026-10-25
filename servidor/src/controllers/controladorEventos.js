@@ -40,8 +40,28 @@ export const verEventos = async (pet, resp) => {
 export const modificarEventos = (pet, resp) => {
     resp.render('vistasEventos/modificarEventos');
 }
-export const eliminarEventos = (pet, resp) => {
-    resp.render('vistasEventos/eliminarEventos');
+export const eliminarEventos = async (pet, resp) => {
+    let descripcion;
+    descripcion=pet.query.descripcion;
+    try {
+        if(!descripcion){
+            resp.render('vistasEventos/eliminarEventos', {eventos: []});
+        } else{
+            let consultaSelect=`SELECT e.idevento, d.nombre, e.descripcion
+                                FROM eventos AS e
+                                INNER JOIN deportes AS d
+                                ON e.deportes_iddeporte = d.iddeporte
+                                WHERE LOWER(descripcion) LIKE LOWER('%${descripcion}%')`;
+            const [eventos] = await bd.query(consultaSelect);
+            resp.render('vistasEventos/eliminarEventos', {eventos: eventos});
+        }
+        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasEventos/eliminarEventos', {
+            alertaError: true,
+        })
+    }
 }
 export const eventosId1 = async (pet, resp) => {
     try {
@@ -106,6 +126,25 @@ export const crearEventosSQL= async (pet, resp) => {
         console.log('Error en la sentencia: ', error);
         resp.render('vistasEventos/crearEventos', {
             alertaError: true
+        })
+    }
+}
+
+export const eliminarEventosSQL= async (pet, resp) => {
+    let id;
+    id=pet.body.id;
+    id=Number(id);
+    try {
+            let consultaEliminar=`DELETE FROM eventos WHERE idevento=${id}`;
+            const [registro]=await bd.query(consultaEliminar);
+            resp.render('vistasEventos/eliminarEventos', {
+            alertaExito: true,
+            eventos: [] 
+        })        
+    } catch (error) {
+        console.log('Error en la sentencia: ', error);
+        resp.render('vistasEventos/eliminarEventos', {
+            alertaError: true,
         })
     }
 }
